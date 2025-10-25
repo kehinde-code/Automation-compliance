@@ -1,0 +1,29 @@
+name: Test Compliance Audit Tools
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-python-tool:
+    name: Test Python Audit Tool
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Run tests
+        run: python3 test_audit_environment.py
+      - name: Run audit
+        run: sudo python3 compliance_audit.py
+        continue-on-error: true
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: audit-reports
+          path: audit_reports/
