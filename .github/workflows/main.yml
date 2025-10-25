@@ -1,0 +1,7 @@
+# Make a tiny change to trigger the workflow
+echo "" >> README.md
+
+# Commit and push
+git add README.md
+git commit -m "Trigger workflow"
+git push origin master
